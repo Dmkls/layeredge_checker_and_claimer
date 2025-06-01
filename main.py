@@ -53,7 +53,7 @@ async def main(is_claim, platform):
                 deposit_address = CEX_DATAS[i].split(':')[0]
                 user_id = CEX_DATAS[i].split(':')[1]
             task = asyncio.create_task(worker(i, address, input_wallet, proxy, user_agent, is_claim, platform, deposit_address, user_id))
-            await asyncio.sleep(random.uniform(1, 7))
+            await asyncio.sleep(random.uniform(1, 2))
             tasks.append(task)
 
         results = await asyncio.gather(*tasks)
@@ -62,7 +62,8 @@ async def main(is_claim, platform):
         failed_proxies = []
 
         for i, allocation in results:
-            if not allocation:
+            if isinstance(allocation, bool):
+                print('not not a')
                 continue
             if allocation == -1:
                 failed_proxies.append(PROXIES[i])
